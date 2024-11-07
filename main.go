@@ -55,7 +55,7 @@ func jOut(sess string) {
 	var cont map[string]any
 	json.Unmarshal(body, &cont)
 
-	dateTime, _ := datetime.Parse((cont["$values"].([]interface{})[0].(map[string]interface{})["measuredDate"]).(string), time.Local)
+	dateTime, err := datetime.Parse((cont["$values"].([]interface{})[0].(map[string]interface{})["measuredDate"]).(string), time.Local)
 	if err != nil {
 		fmt.Printf("cannot convert isotime to \"normal\" : %v", err)
 	}
