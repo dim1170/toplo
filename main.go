@@ -7,11 +7,8 @@ import (
 	"io"
 	"net/http"
 	"time"
-
 	"github.com/nav-inc/datetime"
 )
-
-
 
 func sess() string {
         user := "" // username from registration in quote 
@@ -47,7 +44,6 @@ func sess() string {
 }
 
 func jOut(sess string) {
-
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "https://api.toplo.bg/api/Stations/GetStationStandartView", nil)
 	if err != nil {
