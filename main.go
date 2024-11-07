@@ -14,8 +14,8 @@ import (
 
 
 func sess() string {
-        var user = ""
-        var pass = ""
+        user := "" // username from registration in quote 
+        pass := "" // password from registration in quote 
 	
 	postDataM := map[string]interface{}{
 		"Email":    user,
