@@ -11,8 +11,20 @@ import (
 	"github.com/nav-inc/datetime"
 )
 
+
+
 func sess() string {
-	postData := []byte("{\"Email\":\"<USER>\", \"Password\":\"<PASS>\"}")
+        var user = ""
+        var pass = ""
+	
+	postDataM := map[string]interface{}{
+		"Email":    user,
+		"Password": pass,
+	}
+	postData, err := json.Marshal(postDataM)
+	if err != nil {
+		fmt.Printf("Cannot convert map to json: %v", err)
+	}
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", "https://api.toplo.bg/api/auth/login", bytes.NewBuffer(postData))
 	if err != nil {
