@@ -48,6 +48,7 @@ func jOut(sess string) {
 	if err != nil {
 		fmt.Printf("json response is empty: %v", err)
 	}
+	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Printf("cannot read json response: %v", err)
