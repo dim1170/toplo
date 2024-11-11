@@ -7,13 +7,14 @@ import (
 	"io"
 	"net/http"
 	"time"
+
 	"github.com/nav-inc/datetime"
 )
 
 func sess() string {
-        user := "" // username from registration in quote 
-        pass := "" // password from registration in quote 
-	
+	user := "" // username from registration in quote
+	pass := "" // password from registration in quote
+
 	postDataM := map[string]interface{}{
 		"Email":    user,
 		"Password": pass,
@@ -64,16 +65,18 @@ func jOut(sess string) {
 	var cont map[string]any
 	json.Unmarshal(body, &cont)
 
-	dateTime, err := datetime.Parse((cont["$values"].([]interface{})[0].(map[string]interface{})["measuredDate"]).(string), time.Local)
+	pref := cont["$values"].([]interface{})[0].(map[string]interface{})
+	dateTime, err := datetime.Parse((pref["measuredDate"]).(string), time.Local)
 	if err != nil {
 		fmt.Printf("cannot convert isotime to \"normal\" : %v", err)
 	}
-	fmt.Printf("Адрес : %s\n", cont["$values"].([]interface{})[0].(map[string]interface{})["name"])
+
+	fmt.Printf("Адрес : %s\n", pref["name"])
 	fmt.Printf("Дата и час на замерване от топлофикация : %s\n", dateTime)
-	fmt.Printf("Температура околна среда(извън блока) : %v\n", cont["$values"].([]interface{})[0].(map[string]interface{})["outsideTemperature"])
-	fmt.Printf("Температура топла вода на входа на блока : %v\n", cont["$values"].([]interface{})[0].(map[string]interface{})["heatmeterTEmitting"])
-	fmt.Printf("Температура топла вода за парно : %v\n", cont["$values"].([]interface{})[0].(map[string]interface{})["heatingMeasuredTemperature"])
-	fmt.Printf("Температура топла вода за ВиК : %v\n", cont["$values"].([]interface{})[0].(map[string]interface{})["domesticHotWaterMeasuredTemperature"])
+	fmt.Printf("Температура околна среда(извън блока) : %v\n", pref["outsideTemperature"])
+	fmt.Printf("Температура топла вода на входа на блока : %v\n", pref["heatmeterTEmitting"])
+	fmt.Printf("Температура топла вода за парно : %v\n", pref["heatingMeasuredTemperature"])
+	fmt.Printf("Температура топла вода за ВиК : %v\n", pref["domesticHotWaterMeasuredTemperature"])
 
 	//fileContent, _ := json.MarshalIndent(cont["$values"].([]interface{})[0], "", "  ")
 	//fmt.Printf("%s\n", fileContent)
