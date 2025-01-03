@@ -10,6 +10,7 @@ import (
 
 	"github.com/nav-inc/datetime"
 )
+var apiToplo string = "https://api.toplo.bg/api"
 
 func sess() string {
 	user := "" // username from registration in quote
@@ -24,7 +25,7 @@ func sess() string {
 		fmt.Printf("Cannot convert map to json: %v", err)
 	}
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", "https://api.toplo.bg/api/auth/login", bytes.NewBuffer(postData))
+	req, err := http.NewRequest("POST", apiToplo+"/auth/login", bytes.NewBuffer(postData))
 	if err != nil {
 		fmt.Printf("POST request didn't pass: %v", err)
 	}
@@ -46,7 +47,7 @@ func sess() string {
 
 func jOut(sess string) {
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", "https://api.toplo.bg/api/Stations/GetStationStandartView", nil)
+	req, err := http.NewRequest("GET", apiToplo+"/Stations/GetStationStandartView", nil)
 	if err != nil {
 		fmt.Printf("there is no resp on json request: %v", err)
 	}
