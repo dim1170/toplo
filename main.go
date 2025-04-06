@@ -14,8 +14,8 @@ import (
 var apiToplo string = "https://api.toplo.bg/api"
 
 func sess() string {
-	user := os.Getenv("USER_TOPLO") // ENV: username from registration
-	pass := os.Getenv("PASS_TOPLO") // ENV: password from registration
+	user := os.Getenv("USER_TOPLO") // from ENV (tested with linux env) : username from toplo registration
+	pass := os.Getenv("PASS_TOPLO") // from ENV (tested with linux env) : password from toplo registration
 
 	postDataM := map[string]interface{}{
 		"Email":    user,
