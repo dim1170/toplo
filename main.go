@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -13,8 +14,8 @@ import (
 var apiToplo string = "https://api.toplo.bg/api"
 
 func sess() string {
-	user := os.Getenv("USER_TOPLO") // username from registration in quote
-	pass := os.Getenv("PASS_TOPLO") // password from registration in quote
+	user := os.Getenv("USER_TOPLO") // ENV: username from registration
+	pass := os.Getenv("PASS_TOPLO") // ENV: password from registration
 
 	postDataM := map[string]interface{}{
 		"Email":    user,
@@ -22,23 +23,25 @@ func sess() string {
 	}
 	postData, err := json.Marshal(postDataM)
 	if err != nil {
-		fmt.Printf("Cannot convert map to json: %v", err)
+		log.Fatal("cannot create json ", err)
 	}
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", apiToplo+"/auth/login", bytes.NewBuffer(postData))
 	if err != nil {
-		fmt.Printf("POST request didn't pass: %v", err)
+		log.Fatal("cannot create post request:", err)
 	}
 
 	req.Header.Add("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Printf("there is no resp: %v", err)
+		log.Fatal("there is no response from server: ", err)
 	}
 
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
-
+	if err != nil {
+		log.Fatal("cannot read body: ", err)
+	}
 	var cont map[string]any
 	json.Unmarshal(body, &cont)
 	sess := fmt.Sprintf("%s", cont["token"])
@@ -49,19 +52,19 @@ func jOut(sess string) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", apiToplo+"/Stations/GetStationStandartView", nil)
 	if err != nil {
-		fmt.Printf("there is no resp on json request: %v", err)
+		log.Fatal("cannot create get request: ", err)
 	}
 	var bearer = "Bearer " + sess
 	req.Header.Add("Authorization", bearer)
 
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Printf("json response is empty: %v", err)
+		log.Fatal("response from server is empty: ", err)
 	}
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Printf("cannot read json response: %v", err)
+		log.Fatal("cannot read read body: ", err)
 	}
 	var cont map[string]any
 	json.Unmarshal(body, &cont)
