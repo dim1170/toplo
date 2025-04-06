@@ -63,7 +63,6 @@ func httpz(valS string, token string) (body []byte) {
 	if err != nil {
 		log.Fatal("cannot read read body: ", err)
 	}
-
 	return body
 
 }
