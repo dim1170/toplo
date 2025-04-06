@@ -41,7 +41,6 @@ func jOut(sess string) (req *http.Request) {
 	}
 
 	var bearer = "Bearer " + sess
-
 	req.Header.Add("Authorization", bearer)
 
 	return req
@@ -50,7 +49,6 @@ func jOut(sess string) (req *http.Request) {
 func httpz(valS string, token string) (body []byte) {
 
 	client := &http.Client{}
-
 	var req *http.Request
 
 	if valS == "token" {
@@ -79,23 +77,16 @@ func httpz(valS string, token string) (body []byte) {
 func main() {
 
 	bodyT := httpz("token", "")
-
 	var cont map[string]any
-
 	json.Unmarshal(bodyT, &cont)
-
 	token := fmt.Sprintf("%s", cont["token"])
 
 	jValues := httpz("jVal", token)
-
 	var jValue map[string]any
-
 	json.Unmarshal(jValues, &jValue)
-
 	wValue := jValue["$values"].([]interface{})[0].(map[string]interface{})
 
 	t := time.Now()
-
 	fmt.Printf("Адрес : %s\n", wValue["name"])
 	fmt.Printf("Дата и час на замерване от топлофикация : %02d:%02d:%02d %02d-%02d-%d\n", t.Hour(), t.Minute(), t.Second(), t.Day(), t.Month(), t.Year())
 	fmt.Printf("Температура околна среда(извън блока) : %v\n", wValue["outsideTemperature"])
