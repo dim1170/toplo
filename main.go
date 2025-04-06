@@ -6,15 +6,17 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/nav-inc/datetime"
 )
+
 var apiToplo string = "https://api.toplo.bg/api"
 
 func sess() string {
-	user := "" // username from registration in quote
-	pass := "" // password from registration in quote
+	user := os.Getenv("USER_TOPLO") // username from registration in quote
+	pass := os.Getenv("PASS_TOPLO") // password from registration in quote
 
 	postDataM := map[string]interface{}{
 		"Email":    user,
