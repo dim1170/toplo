@@ -13,7 +13,7 @@ import (
 
 var apiToplo string = "https://api.toplo.bg/api"
 
-func sess() *http.Request {
+func sess() (req *http.Request) {
 
 	postDataM := map[string]any{
 		"Email":    os.Getenv("USER_TOPLO"), // from ENV (tested with linux env) : username from toplo registration
@@ -25,7 +25,7 @@ func sess() *http.Request {
 		log.Fatal("cannot create json ", err)
 	}
 
-	req, err := http.NewRequest("POST", apiToplo+"/auth/login", bytes.NewBuffer(postData))
+	req, err = http.NewRequest("POST", apiToplo+"/auth/login", bytes.NewBuffer(postData))
 	if err != nil {
 		log.Fatal("cannot create post request:", err)
 	}
