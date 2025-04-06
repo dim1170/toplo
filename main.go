@@ -8,8 +8,6 @@ import (
 	"net/http"
 	"os"
 	"time"
-
-	"github.com/nav-inc/datetime"
 )
 
 var apiToplo string = "https://api.toplo.bg/api"
@@ -69,13 +67,10 @@ func jOut(sess string) {
 	json.Unmarshal(body, &cont)
 
 	pref := cont["$values"].([]interface{})[0].(map[string]interface{})
-	dateTime, err := datetime.Parse((pref["measuredDate"]).(string), time.Local)
-	if err != nil {
-		fmt.Printf("cannot convert isotime to \"normal\" : %v", err)
-	}
 
+	t := time.Now()
 	fmt.Printf("Адрес : %s\n", pref["name"])
-	fmt.Printf("Дата и час на замерване от топлофикация : %s\n", dateTime)
+	fmt.Printf("Дата и час на замерване от топлофикация : %02d:%02d:%02d %02d-%02d-%d\n", t.Hour(), t.Minute(), t.Second(), t.Day(), t.Month(), t.Year())
 	fmt.Printf("Температура околна среда(извън блока) : %v\n", pref["outsideTemperature"])
 	fmt.Printf("Температура топла вода на входа на блока : %v\n", pref["heatmeterTEmitting"])
 	fmt.Printf("Температура топла вода за парно : %v\n", pref["heatingMeasuredTemperature"])
