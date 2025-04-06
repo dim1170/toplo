@@ -79,8 +79,6 @@ func jOut(sess string) {
 	fmt.Printf("Температура топла вода за парно : %v\n", pref["heatingMeasuredTemperature"])
 	fmt.Printf("Температура топла вода за ВиК : %v\n", pref["domesticHotWaterMeasuredTemperature"])
 
-	//fileContent, _ := json.MarshalIndent(cont["$values"].([]interface{})[0], "", "  ")
-	//fmt.Printf("%s\n", fileContent)
 }
 
 func main() {
