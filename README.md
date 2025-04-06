@@ -1,5 +1,5 @@
 # toplo
-## - It needs to set username and password from toplo.bg registration 
+## - It needs to set username and password from toplo.bg registration set as environment variable
 
 ## - Compile the source 
 go build main.go # for linux version <br>
